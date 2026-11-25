@@ -94,65 +94,90 @@
 <button class="theme" id="themeBtn" title="切换主题">🌙</button>
 <div class="wrap">
   <header class="head">
-    <div class="logo">PS</div>
-    <h1>盘搜搜资源入口</h1>
-    <p>聚合网盘资源搜索 · 每日更新 · 完全免费</p>
+    <div class="logo" id="logo">PS</div>
+    <h1 id="siteName">盘搜搜资源入口</h1>
+    <p id="siteSub">聚合网盘资源搜索 · 每日更新 · 完全免费</p>
   </header>
 
-  <nav class="links">
-    <a class="card" href="https://xinyue.aiyiwei.cn" target="_blank" rel="noopener">
-      <div class="icon">🔍</div>
-      <div class="txt"><b>盘搜搜主站</b><span>聚合多个网盘来源 · 快速搜索资源</span></div>
-      <div class="go">前往</div>
-    </a>
-    <a class="card" href="https://xinyue.aiyiwei.cn/ranking" target="_blank" rel="noopener">
-      <div class="icon">🔥</div>
-      <div class="txt"><b>夸克热搜榜单</b><span>热门影视资源 · 实时排行</span></div>
-      <div class="go">前往</div>
-    </a>
-    <a class="card" href="https://xinyue.aiyiwei.cn/top250" target="_blank" rel="noopener">
-      <div class="icon">🏆</div>
-      <div class="txt"><b>豆瓣 Top250</b><span>经典高分电影合集</span></div>
-      <div class="go">前往</div>
-    </a>
-    <a class="card" href="https://xinyue.aiyiwei.cn/game" target="_blank" rel="noopener">
-      <div class="icon">🎮</div>
-      <div class="txt"><b>游戏资源排行</b><span>精选游戏资源推荐</span></div>
-      <div class="go">前往</div>
-    </a>
-    <a class="card" href="https://xinyue.aiyiwei.cn/latest" target="_blank" rel="noopener">
-      <div class="icon">🆕</div>
-      <div class="txt"><b>最近更新</b><span>最新入库资源一览</span></div>
-      <div class="go">前往</div>
-    </a>
-    <a class="card" href="#" target="_blank" rel="noopener" data-placeholder="QQ群链接">
-      <div class="icon">💬</div>
-      <div class="txt"><b>QQ 交流群</b><span>资源更新 · 交流互助(待填群链接)</span></div>
-      <div class="go">前往</div>
-    </a>
-  </nav>
+  <nav class="links" id="links"></nav>
 
-  <section class="donate">
+  <section class="donate" id="donateSec" style="display:none">
     <h2>感谢你的支持 <em>♥</em></h2>
     <p>扫码赞助,金额随意 · 全部用于资源与服务器维护<br>手机长按图片保存,或用另一台设备扫码</p>
-    <div class="qrs">
-      <div><img src="img/wechat.png" alt="微信赞助码" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Crect width=%22140%22 height=%22140%22 fill=%22%23f0f1f5%22/%3E%3Ctext x=%2270%22 y=%2275%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%239aa%22%3E赞助码%3C/text%3E%3C/svg%3E'"><div class="cap">微信</div></div>
-      <div><img src="img/alipay.png" alt="支付宝赞助码" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Crect width=%22140%22 height=%22140%22 fill=%22%23f0f1f5%22/%3E%3Ctext x=%2270%22 y=%2275%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%239aa%22%3E赞助码%3C/text%3E%3C/svg%3E'"><div class="cap">支付宝</div></div>
-    </div>
+    <div class="qrs" id="qrs"></div>
   </section>
 
-  <footer class="foot">
-    <p>本站仅做资源索引,完全免费,请勿相信广告,谨防上当受骗</p>
-    <p>主站:<a href="https://xinyue.aiyiwei.cn" target="_blank" rel="noopener">xinyue.aiyiwei.cn</a></p>
-  </footer>
+  <footer class="foot" id="foot"></footer>
 </div>
 <script>
-  const b=document.body,k='xy-theme';
-  if(localStorage.getItem(k)==='dark'){b.classList.add('dark');}
-  document.getElementById('themeBtn').onclick=()=>{
-    b.classList.toggle('dark');
-    localStorage.setItem(k,b.classList.contains('dark')?'dark':'light');
-  };
+/* ===== 主题切换 ===== */
+const b=document.body,k='xy-theme';
+if(localStorage.getItem(k)==='dark'){b.classList.add('dark');}
+document.getElementById('themeBtn').onclick=()=>{
+  b.classList.toggle('dark');
+  localStorage.setItem(k,b.classList.contains('dark')?'dark':'light');
+};
+
+/* ===== 后台动态配置 =====
+   数据源: https://xinyue.aiyiwei.cn/api/other/portal
+   后台 qfadmin → 基础设置 可改:入口页链接列表/QQ群链接/微信赞助码/支付宝赞助码
+   接口失败或字段为空 → 用下面 DEFAULT 兜底 */
+const API='https://xinyue.aiyiwei.cn/api/other/portal';
+const DEFAULT={
+  site_name:'盘搜搜',site_sub:'聚合网盘资源搜索 · 每日更新 · 完全免费',
+  footer:'本站仅做资源索引,完全免费,请勿相信广告,谨防上当受骗',
+  qq_link:'',
+  links:[
+    {icon:'🔍',title:'盘搜搜主站',sub:'聚合多个网盘来源 · 快速搜索资源',url:'https://xinyue.aiyiwei.cn'},
+    {icon:'🔥',title:'夸克热搜榜单',sub:'热门影视资源 · 实时排行',url:'https://xinyue.aiyiwei.cn/ranking'},
+    {icon:'🏆',title:'豆瓣 Top250',sub:'经典高分电影合集',url:'https://xinyue.aiyiwei.cn/top250'},
+    {icon:'🎮',title:'游戏资源排行',sub:'精选游戏资源推荐',url:'https://xinyue.aiyiwei.cn/game'},
+    {icon:'🆕',title:'最近更新',sub:'最新入库资源一览',url:'https://xinyue.aiyiwei.cn/latest'}
+  ],
+  donate:{wechat:'',alipay:''}
+};
+
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function render(d){
+  document.getElementById('siteName').textContent=(d.site_name||'盘搜搜')+'资源入口';
+  document.getElementById('siteSub').textContent=d.site_sub||DEFAULT.site_sub;
+  document.getElementById('logo').textContent=(d.site_name||'PS').slice(0,2).toUpperCase()==='盘搜'?'PS':esc((d.site_name||'PS').slice(0,2));
+
+  const nav=document.getElementById('links');
+  nav.innerHTML='';
+  const links=(d.links&&d.links.length?d.links:DEFAULT.links).slice();
+  if(d.qq_link){links.push({icon:'💬',title:'QQ 交流群',sub:'资源更新 · 交流互助',url:d.qq_link});}
+  links.forEach(l=>{
+    const a=document.createElement('a');
+    a.className='card';a.href=esc(l.url);a.target='_blank';a.rel='noopener';
+    a.innerHTML='<div class="icon">'+esc(l.icon||'🔗')+'</div>'+
+      '<div class="txt"><b>'+esc(l.title)+'</b><span>'+esc(l.sub)+'</span></div>'+
+      '<div class="go">前往</div>';
+    nav.appendChild(a);
+  });
+
+  const dn=(d.donate&&(d.donate.wechat||d.donate.alipay))?d.donate:null;
+  if(dn){
+    const qrs=document.getElementById('qrs');qrs.innerHTML='';
+    [['wechat','微信'],['alipay','支付宝']].forEach(([key,cap])=>{
+      if(!dn[key])return;
+      const w=document.createElement('div');
+      w.innerHTML='<img src="'+esc(dn[key])+'" alt="'+cap+'赞助码"><div class="cap">'+cap+'</div>';
+      qrs.appendChild(w);
+    });
+    if(qrs.children.length)document.getElementById('donateSec').style.display='';
+  }
+
+  document.getElementById('foot').innerHTML=
+    '<p>'+esc(d.footer||DEFAULT.footer)+'</p>'+
+    '<p>主站:<a href="https://xinyue.aiyiwei.cn" target="_blank" rel="noopener">xinyue.aiyiwei.cn</a></p>';
+}
+
+fetch(API,{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined})
+  .then(r=>r.json()).then(j=>{render(j&&j.data?Object.assign({},DEFAULT,j.data):DEFAULT);})
+  .catch(()=>render(DEFAULT));
+render(DEFAULT); // 先渲染兜底,接口回来后覆盖
 </script>
 </body>
 </html>
