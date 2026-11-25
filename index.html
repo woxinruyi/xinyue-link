@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>盘搜搜 · 资源入口</title>
+<meta name="description" content="盘搜搜资源入口：聚合网盘资源搜索、榜单、更新与社群">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --bg1:#f6f7fb; --bg2:#eef1f8;
+    --card:#ffffff; --card-hover:#ffffff;
+    --border:rgba(120,130,160,.14);
+    --text:#1d2433; --sub:#8a93a6;
+    --brand:#ff6a3d; --brand2:#ff8f4d;
+    --shadow:0 6px 24px rgba(31,45,61,.08);
+    --shadow-hover:0 12px 32px rgba(255,106,61,.18);
+  }
+  body.dark {
+    --bg1:#12151d; --bg2:#0e1118;
+    --card:#1b2030; --card-hover:#222842;
+    --border:rgba(255,255,255,.08);
+    --text:#e8ecf4; --sub:#8b94ab;
+    --shadow:0 6px 24px rgba(0,0,0,.35);
+    --shadow-hover:0 12px 32px rgba(255,106,61,.25);
+  }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    color:var(--text); min-height:100vh;
+    display:flex; flex-direction:column; align-items:center;
+    padding:56px 20px 40px;
+    transition:background .3s,color .3s;
+  }
+  .wrap { width:100%; max-width:460px; }
+  /* ===== 头部 ===== */
+  .head { text-align:center; margin-bottom:28px; }
+  .logo {
+    width:72px;height:72px;margin:0 auto 14px;border-radius:20px;
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    display:flex;align-items:center;justify-content:center;
+    font-size:30px;font-weight:800;color:#fff;
+    box-shadow:0 10px 26px rgba(255,106,61,.4);
+  }
+  .head h1 { font-size:22px;letter-spacing:1px; }
+  .head p { color:var(--sub);font-size:13px;margin-top:6px; }
+  /* ===== 卡片列表 ===== */
+  .links { display:flex;flex-direction:column;gap:14px; }
+  .card {
+    display:flex;align-items:center;gap:14px;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:16px;padding:16px 18px;
+    box-shadow:var(--shadow);text-decoration:none;color:var(--text);
+    transition:transform .18s,box-shadow .18s,border-color .18s;
+  }
+  .card:hover { transform:translateY(-2px);box-shadow:var(--shadow-hover);border-color:rgba(255,106,61,.45); }
+  .icon {
+    width:44px;height:44px;flex:none;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;font-size:21px;
+    background:linear-gradient(135deg,rgba(255,106,61,.14),rgba(255,143,77,.14));
+  }
+  .txt { flex:1;min-width:0; }
+  .txt b { display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .txt span { display:block;font-size:12px;color:var(--sub);margin-top:3px; }
+  .go {
+    flex:none;font-size:12px;font-weight:600;color:#fff;
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    padding:7px 16px;border-radius:999px;
+  }
+  /* ===== 赞助区 ===== */
+  .donate {
+    margin-top:30px;background:var(--card);border:1px solid var(--border);
+    border-radius:16px;padding:22px 18px;text-align:center;box-shadow:var(--shadow);
+  }
+  .donate h2 { font-size:15px;margin-bottom:6px; }
+  .donate h2 em { color:var(--brand);font-style:normal; }
+  .donate p { font-size:12px;color:var(--sub);line-height:1.8; }
+  .qrs { display:flex;gap:14px;justify-content:center;margin-top:14px; }
+  .qrs img { width:140px;height:140px;border-radius:12px;border:1px solid var(--border);object-fit:cover;background:#fff; }
+  .qrs .cap { font-size:11px;color:var(--sub);margin-top:6px; }
+  /* ===== 页脚 ===== */
+  .foot { margin-top:26px;text-align:center;font-size:12px;color:var(--sub);line-height:1.9; }
+  .foot a { color:var(--sub); }
+  /* ===== 主题切换 ===== */
+  .theme {
+    position:fixed;top:18px;right:18px;width:40px;height:40px;border-radius:50%;
+    border:1px solid var(--border);background:var(--card);box-shadow:var(--shadow);
+    cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;
+  }
+  @media (max-width:380px){ .qrs img{width:118px;height:118px;} }
+</style>
+</head>
+<body>
+<button class="theme" id="themeBtn" title="切换主题">🌙</button>
+<div class="wrap">
+  <header class="head">
+    <div class="logo">PS</div>
+    <h1>盘搜搜资源入口</h1>
+    <p>聚合网盘资源搜索 · 每日更新 · 完全免费</p>
+  </header>
+
+  <nav class="links">
+    <a class="card" href="https://xinyue.aiyiwei.cn" target="_blank" rel="noopener">
+      <div class="icon">🔍</div>
+      <div class="txt"><b>盘搜搜主站</b><span>聚合多个网盘来源 · 快速搜索资源</span></div>
+      <div class="go">前往</div>
+    </a>
+    <a class="card" href="https://xinyue.aiyiwei.cn/ranking" target="_blank" rel="noopener">
+      <div class="icon">🔥</div>
+      <div class="txt"><b>夸克热搜榜单</b><span>热门影视资源 · 实时排行</span></div>
+      <div class="go">前往</div>
+    </a>
+    <a class="card" href="https://xinyue.aiyiwei.cn/top250" target="_blank" rel="noopener">
+      <div class="icon">🏆</div>
+      <div class="txt"><b>豆瓣 Top250</b><span>经典高分电影合集</span></div>
+      <div class="go">前往</div>
+    </a>
+    <a class="card" href="https://xinyue.aiyiwei.cn/game" target="_blank" rel="noopener">
+      <div class="icon">🎮</div>
+      <div class="txt"><b>游戏资源排行</b><span>精选游戏资源推荐</span></div>
+      <div class="go">前往</div>
+    </a>
+    <a class="card" href="https://xinyue.aiyiwei.cn/latest" target="_blank" rel="noopener">
+      <div class="icon">🆕</div>
+      <div class="txt"><b>最近更新</b><span>最新入库资源一览</span></div>
+      <div class="go">前往</div>
+    </a>
+    <a class="card" href="#" target="_blank" rel="noopener" data-placeholder="QQ群链接">
+      <div class="icon">💬</div>
+      <div class="txt"><b>QQ 交流群</b><span>资源更新 · 交流互助(待填群链接)</span></div>
+      <div class="go">前往</div>
+    </a>
+  </nav>
+
+  <section class="donate">
+    <h2>感谢你的支持 <em>♥</em></h2>
+    <p>扫码赞助,金额随意 · 全部用于资源与服务器维护<br>手机长按图片保存,或用另一台设备扫码</p>
+    <div class="qrs">
+      <div><img src="img/wechat.png" alt="微信赞助码" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Crect width=%22140%22 height=%22140%22 fill=%22%23f0f1f5%22/%3E%3Ctext x=%2270%22 y=%2275%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%239aa%22%3E赞助码%3C/text%3E%3C/svg%3E'"><div class="cap">微信</div></div>
+      <div><img src="img/alipay.png" alt="支付宝赞助码" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Crect width=%22140%22 height=%22140%22 fill=%22%23f0f1f5%22/%3E%3Ctext x=%2270%22 y=%2275%22 text-anchor=%22middle%22 font-size=%2213%22 fill=%22%239aa%22%3E赞助码%3C/text%3E%3C/svg%3E'"><div class="cap">支付宝</div></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>本站仅做资源索引,完全免费,请勿相信广告,谨防上当受骗</p>
+    <p>主站:<a href="https://xinyue.aiyiwei.cn" target="_blank" rel="noopener">xinyue.aiyiwei.cn</a></p>
+  </footer>
+</div>
+<script>
+  const b=document.body,k='xy-theme';
+  if(localStorage.getItem(k)==='dark'){b.classList.add('dark');}
+  document.getElementById('themeBtn').onclick=()=>{
+    b.classList.toggle('dark');
+    localStorage.setItem(k,b.classList.contains('dark')?'dark':'light');
+  };
+</script>
+</body>
+</html>
